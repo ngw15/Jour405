@@ -50,7 +50,11 @@ Robbery residential didn't really have an average. The lowest were assault with 
 One theory about crime is that it is more likely to occur in the summer months. Test this theory by creating three new columns using `mutate()` that calculate the percentage change compared to the average for each category of crime for the months of June, July, and August. Call the new columns `june_change`, `july_change`, and `august_change`. Assign the result to a new dataframe called `summer_crime_averages`.
 
 ```{r}
-
+summer_crime_averages<- average_incidents %>%
+  mutate(
+    june_change = ((Jun - average) / average) * 100,
+    july_change = ((Jul - average) / average) * 100,
+    august_change = ((Aug - average) / average) * 100)
 
 ```
 
@@ -58,13 +62,16 @@ One theory about crime is that it is more likely to occur in the summer months. 
 
 Look at the `summer_crime_averages` dataframe by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the percentage change in the average number of incidents per month for each category of crime for the months of June, July, and August. Do you see any patterns? What does this tell you about the theory that crime is more likely to occur in the summer months?
 
-ANSWER HERE
+Theft from auto and accidents see an increase in the summer, which makes sense because more people travel by car during that time period. Some more violent crimes did not increase which shows how crime overall doesn't increase over the summer. People in the summer also may leave their cars unattended. 
+
 
 ### Task 8: What's the Story?
 
 Write up a lede and nutgraf of a story focused on the crime data in Prince George's County. It could be from any of the dataframes you've created in this assignment. The lede should be a single sentence that summarizes the most important information in the data. The nutgraf should be a paragraph that provides more context and explains why the data is important.
 
-ANSWER HERE
+Vehicle related crime in Prince Georges County is the highest reported crime amongst crimes like breaking and entering, homicide and sex offense, according to a data report. 
+
+Prince Georges County's highest crime reported is vehicle accidents with an average of around 481 total accidents happening this past year, according to the data. When compared to residential robbery, which was the lowest average, accidents seem to be significantly higher. 
 
 ### Task 9: Save Your Work and Put it on GitHub
 
