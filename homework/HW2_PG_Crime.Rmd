@@ -30,14 +30,19 @@ Calculate the total number of incidents for each category using `mutate()`, call
  Then calculate the average number of incidents per month for each category of crime, calling the new column `average_incidents`. Assign the result to a new dataframe called `pg_crime_averages`.
 
 ```{r}
-pgcounty_crime %>% mutate(sum(435+430+429+488+529+463+462+497+465+569+500+509)
+total_incidents<-pgcounty_crime %>% 
+  mutate(total=Jan+Feb+Mar+Apr+May+Jun+Jul+Aug+Sep+Oct+Nov+Dec)
+  average_incidents<-total_incidents %>%
+  mutate(average = (total/12))
+  
+pgcounty_crime<-average_incidents
 ```
 
 ### Task 5: Describe the Averages
 
 Examine the new dataframe, `pg_crime_averages`, by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the average number of incidents per month for each category. Which categories have the highest average number of incidents per month? Which have the lowest? What does this tell you about the pattern of crime in Prince George's County? Are there categories that you have questions about? Why or why not?
 
-ANSWER HERE
+Robbery residential didn't really have an average. The lowest were assault with a weapon, assualt shooting, b&e other, and sex offense. The highest categories were accident and theft from auto. Auto related crimes look to be a lot higher which is interesting. Theft. is pretty high. I'm surprised that homicide is so low with everyhting else being so high. I'm wondering how robbery residential is so low while breaking and entering is higher because you would think that people would break and enter and also steal something,  
 
 
 ### Task 6: Testing a Theory
@@ -45,6 +50,8 @@ ANSWER HERE
 One theory about crime is that it is more likely to occur in the summer months. Test this theory by creating three new columns using `mutate()` that calculate the percentage change compared to the average for each category of crime for the months of June, July, and August. Call the new columns `june_change`, `july_change`, and `august_change`. Assign the result to a new dataframe called `summer_crime_averages`.
 
 ```{r}
+
+
 ```
 
 ### Task 7: Describe the Summer Crime Averages
