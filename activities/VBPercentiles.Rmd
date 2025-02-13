@@ -5,21 +5,29 @@ title: "Volleyball Percentiles"
 We'll be calculating percentiles to see how good Maryland was in service aces in the 2024 season. We'll use `mutate()` and a new function `ntile()` to calculate percentiles. Get started by loading the tidyverse in a code block, then load the CSV file here: https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/refs/heads/main/data/ncaa_womens_volleyball_matchstats_2024.csv" and save it to a dataframe called `matches`.
 
 ### Task 1: Load the tidyverse
-
-
+```{r}
+library(tidyverse)
+```
 ### Task 2: Load the data
-
-
+```{r}
+volleyball_data<-read_csv("https://raw.githubusercontent.com/dwillis/NCAAWomensVolleyballData/refs/heads/main/data/ncaa_womens_volleyball_matchstats_2024.csv")
+```
 ### Task 3: Create totals of aces for each team using `group_by()` and `summarize()`
-
-
+```{r}
+team_aces <- volleyball_data %>%
+  group_by(team) %>%
+  summarize(total_aces = sum(aces, na.rm = TRUE))
+```
 ### Task 4: Calculate percentiles using `mutate()` and `ntile()`
-
-
+```{r}
+team_aces <- team_aces %>%
+  mutate(ace_percentile = ntile(total_aces, 100))
+```
 ### Task 5: Describe the percentiles
 
 Write a couple of sentences that puts Maryland into context with the other teams in the dataset. You can do some Internet research to help with this.
 
+Maryland on this list has 223 total aces which is in the 95th percentile. An ace is a point for a serve, which is a good thing. The internet says that this is the goal for servers in volleyball. Looking at the rest of the data, UTEP has the highest number of aces at 263 in the 100th percentile. Compared to that and the other teams, Maryland is doing really good in womens volleyball. We're in the top 20 teams with highest number of aces at number 17. The lowest to compare is Alcorn with 77 total aces in the 1st percentile, which is terrible. 
 
 
 When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
