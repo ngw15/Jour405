@@ -69,3 +69,21 @@ When looking at the city with the highest violent crime rates per 10,000 people 
 ### Task 9: Save Your Work and Put it on GitHub
 
 Save this notebook, then commit it to your local repository. Push the changes to your GitHub repository and submit the URL for this file in ELMS.
+
+### Task 10: Using the 2020 violent crime rate, calculate the percentiles using `ntile()`. Save the results to a new dataframe called `md_cities_percentiles`. 
+```{r}
+md_cities_percentiles <- md_cities_rates %>%
+  mutate(violent_crime_percentile_2020 = ntile(violent_rate_2020, 100))
+```
+### How many cities are above the 90th percentile? 
+
+There are 11 cities above the 90th percentile (including the one at the 90th percentile). 
+
+### Calculate the Interquartile Range of the 2020 violent crime rate using `summarize()` and R's `IQR()` function. The syntax is similar to how `mean()` works.
+```{r}
+violent_crime_iqr_2020 <- md_cities_rates %>%
+  summarize(IQR_violent_2020 = IQR(violent_rate_2020))
+```
+### Do the results change your best story idea from the previous assignment? Why or why not?
+
+Ocean City is in the 100th percentile while Baltimore City is in the 99th percentile. Looking at it like this, they don't seem that different. I don't think the story really changes for me because I'm still shocked at how high Ocean City is when compared to Baltimore City. I've never heard of Ocean City being more deadly than Baltimore City. I think I would change it to focus on the top ten most dangerous cities because a lot of these I'm surprised to see- like seeing Elkton in the top ten. I live near Elkton and go there all the time and it doesn't seem dangerous to me. Salisbury and Cumberland don't seem that dangerous either when I went to visit. I'm pretty sure most of these places are predominantly white except for Baltimore, so I would write a story about that because in my opinion people view Baltimore as more dangerous because of its large Black population but compared to this data, that's not true. 
