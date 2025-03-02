@@ -5,27 +5,53 @@ title: "HW7_MandMs"
 In this assignment, you'll be picking up where you left off with the M&Ms activity. You'll load the data and perform some basic statistical analysis. Follow the steps below to complete the assignment.
 
 ### Task 1: Load the tidyverse
+```{r}
+library(tidyverse)
+```
 
 
 ### Task 2: Load the M&Ms dataset from https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/mandms.csv
+```{r}
+candy<- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/mandms.csv")
+```
 
 
-### Task 3: Sample 5 rows of data from the dataset
+### Task 3: Sample 5 rows of data from the dataset, and then sample 10 rows, saving each to separate dataframes called sample5 and sample10.
+```{r}
+sample5 <- candy %>% sample_n(5)
+sample10 <- candy %>% sample_n(10)
+```
 
 
-### Task 4: Calculate the mean age and standard deviation of the sample, using either the blue or white number of M&Ms
+### Task 4: Calculate the mean and standard deviation of the samples, using one of the colors.
+```{r}
+mean_sample5_red <- mean(sample5$red, na.rm = TRUE)
+sd_sample5_red <- sd(sample5$red, na.rm = TRUE)
+
+mean_sample10_red <- mean(sample10$red, na.rm = TRUE)
+sd_sample10_red <- sd(sample10$red, na.rm = TRUE)
+```
 
 
-### Task 5: Calculate the mean age and standard deviation of the population, using the same measure as in Task 4
+### Task 5: Calculate the mean and standard deviation of the population, using the same color as Task 4
+```{r}
+mean_population_red <- mean(candy$red, na.rm = TRUE)
+sd_population_red <- sd(candy$red, na.rm = TRUE)
+```
 
 
 ### Task 6: Compare the sample and population statistics
 
-Compare the two sets of means and standard deviations. Are they similar?
+Compare the three sets of means and standard deviations. Are they similar?
+
+The mean population is closer to the mean of sample 5 but the population standard deviation is closer to the standard deviation of sample 10. They're all relatively in the same range though. The standard deviation of sample 5 is a little less than the population standard deviation but not by a significant amount. Typically larger sample sizes are more accurate and closer to the population because they have much more data. 
+
 
 ### Task 7: Describe the results
 
 Write a few sentences about what you found in the data. What does this tell you about the M&Ms dataset and about the act of random sampling?
+
+The sample mean and standard deviation of both samples vary from the population data. Sample 10 is closer to the population mean than sample 5. Sample 5 has smaller sample sizes which makes more sense as to why it's less accurate compared to the entire population. This shows that the bigger the sample size, the more accurate it is to the population. 
 
 
 When finished, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
