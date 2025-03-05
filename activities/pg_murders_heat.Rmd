@@ -3,3 +3,47 @@ title: "pg_murders_heat"
 output: html_document
 ---
 
+---
+title: "PG Murders and Heat"
+---
+
+Remember how we talked about people killing each other more when it's hot outside? Let's explore that relationship using homicide and temperature data from Prince George's County. You'll load the data, perform some basic statistical analysis, and create a scatterplot to explore the relationship. Follow the steps below to complete the assignment.
+
+### Task 1: Load the tidyverse
+```{r}
+library(tidyverse)
+```
+
+### Task 2: Load the dataset from [https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_murder_temps.csv](https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_murder_temps.csv)
+
+```{r}
+murder_temps<-read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/pg_murder_temps.csv")
+```
+
+### Task 3: Use `summarize()` and the `cor()` function to calculate the correlation between murders and temperature, using the pearson method.
+```{r}
+murder_temps %>%  summarize(correlation = cor(murders, temperature, method="pearson"))
+```
+
+### Task 4: Create a scatterplot of murders and temperature, using `geom_point()`. Your aes() will have temperatures on the x axis, murders on the y axis and add a label for the month (so label=month inside the aes()).
+```{r}
+murder_temps %>% 
+  ggplot() +
+  geom_point(aes(x=temperature, y=murders)) +
+  geom_smooth(aes(x=temperature, y=murders), method="lm")
+```
+
+### Task 5: Add labels to the scatterplot using geom_text(). Inside geom_text() put the same aes() as geom_point in Task 4, then after the aes() add size = 5.
+```{r}
+murder_temps %>% 
+  ggplot() +
+  geom_point(aes(x=temperature, y=murders)) +
+  geom_smooth(aes(x=temperature, y=murders), method="lm")+ 
+  geom_text(aes(x=temperature, y=murders, label=month), size=5)
+
+```
+
+### Task 6: Describe the results of both the correlation calculation and the scatterplot.
+The correlation coefficient is 0.5825525, which isn't that far to one. This is just a good correlation since it's not strong but it's closer to one than it is 0. This is reflected on the scatterplot as most of the months are semi-close to the line. Most months are in the range of the line with the exception of November, April, August and March. 
+
+When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
