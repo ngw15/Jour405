@@ -1,0 +1,10 @@
+---
+title: "final_project"
+output: html_document
+---
+
+Try to have your data identified and loaded (if not, make substantial progress on doing that) this week. You should create a notebook called final_project.Rmd in the project folder of your class repository. Put all notes and code in that document, and do not spare the details. If you have the data, describe the source, providing links to it and any documentation you can find. If you can load it from the Web, do that. If not, save a copy of the data in your project folder. IMPORTANT NOTE: do not save a copy if it is more than 100MB in size. Instead, contact me first for assistance.
+
+Otherwise, load the data and examine it, describing it in your project notebook. What does it contain and what time period does it cover? Which columns will be most important for your analysis? What's missing that you might need or want? What questions do you have about it or need help answering? Again, the more detail, the higher your grade.
+
+This is a good start, and you definitely need to expand the data beyond what you have. Going back in time is fine, and you can find more data at https://ope.ed.gov/campussafety/#/.
