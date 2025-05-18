@@ -1,0 +1,16 @@
+---
+title: "Final_Project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+
+```
+
+```{r}
+crime <- read_csv("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD")
+```
+The source of this data is data.gov and it's crime data from 2020 to now. I think I was doing mental health or hate crime data before but I could not figure out how to import that data and it was taking too much time to figure out. Here is the link to that data: https://catalog.data.gov/dataset/crime-data-from-2020-to-present/resource/5eb6507e-fa82-4595-a604-023f8a326099l. 
+
+The crime data provided has data from 2020 to now in L.A. The crimes range from stolen vehicles, vandalism, rape, theft, arson and more along with the area they were committed in. I can analyze who has the most crimes committed against them. The most important columns for this analysis are victim age and victim sex. I think I would want to know who committed these crimes and what causes these demographics to be the most targeted. 
