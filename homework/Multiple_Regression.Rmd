@@ -145,6 +145,3 @@ ggplot(model_comparison, aes(x = reorder(Model, Adjusted_R_squared), y = Adjuste
 Without using the words "multiple regression model", describe how you could use this analysis to cover an election or voter participation story.
 
 This type of analysis can be used to understand how income level, education, age, race, employment are linked to voter turnout. This can be used to predict which canidate would win for a story and the probablities of that candidate winning. We can see which factors have the biggest impact on unusual voting patterns. 
-
-
-In a story, this kind of analysis lets you go beyond surface-level trends and dig into the deeper social forces influencing election outcomes. It gives your reporting more depth and helps your audience understand the "why" behind the numbers.
