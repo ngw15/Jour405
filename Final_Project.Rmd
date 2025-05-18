@@ -5,12 +5,46 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-
+install.packages("janitor")
+library(janitor)
 ```
 
 ```{r}
 crime <- read_csv("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessType=DOWNLOAD")
 ```
-The source of this data is data.gov and it's crime data from 2020 to now. I think I was doing mental health or hate crime data before but I could not figure out how to import that data and it was taking too much time to figure out. Here is the link to that data: https://catalog.data.gov/dataset/crime-data-from-2020-to-present/resource/5eb6507e-fa82-4595-a604-023f8a326099l. 
+
+```{r}
+crime <- crime %>%clean_names()
+```
+
+Tests I can run: 
+I can find the total amount of women and men who were victims. 
+Find the average age and gender of victims. 
+I tried to do the glimpse crime, date range and age range but I have to look more into age range and what the glimpse of data actually does as I work on this today. 
+I can find which days have the highest amount of crimes happening, who was the most targeted victim and then research what could have happened that day in that area. 
+Which area has the most and least crime.
+
+```{r}
+glimpse(crime)
+```
+```{r}
+colSums(is.na(crime))
+```
+```{r}
+min_date <- min(crime$date_occ)
+max_date <- max(crime$date_occ)
+cat("Data ranges from", min_date, "to", max_date)
+
+```
+```{r}
+min_age <- min(crime$vict_age, na.rm = TRUE)
+max_age <- max(crime$vict_age, na.rm = TRUE)
+cat("Victim ages range from", min_age, "to", max_age)
+
+```
+This age range lowkey does not sound right... 
+
+Data Explorations: 
+The source of this data is data.gov and it's crime data from 2020 to 2023. I think I was doing mental health or hate crime data before but I could not figure out how to import that data and it was taking too much time to figure out. Here is the link to that data: https://catalog.data.gov/dataset/crime-data-from-2020-to-present/resource/5eb6507e-fa82-4595-a604-023f8a326099l. 
 
 The crime data provided has data from 2020 to now in L.A. The crimes range from stolen vehicles, vandalism, rape, theft, arson and more along with the area they were committed in. I can analyze who has the most crimes committed against them. The most important columns for this analysis are victim age and victim sex. I think I would want to know who committed these crimes and what causes these demographics to be the most targeted. 
