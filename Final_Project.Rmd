@@ -7,6 +7,8 @@ output: html_document
 library(tidyverse)
 install.packages("janitor")
 library(janitor)
+install.packages("ggplot2")
+library(ggplot2)
 ```
 
 ```{r}
@@ -63,7 +65,7 @@ library(dplyr)
 library(lubridate)
 
 crime %>%
-  filter(year(date_occ) == 2021) %>%
+  filter(year(date_occ) == 2020) %>%
   summarize(mean_age = mean(vict_age, na.rm = TRUE),
             sd_age = sd(vict_age, na.rm = TRUE))
 ```
@@ -150,7 +152,9 @@ crime |>
   filter(year(date_occ)== 2020) %>%
   filter(vict_sex == "M")%>%
   summarize(min_age = min(vict_age), max_age = max(vict_age))
+
 ```
+Filtering the ages by gender. Above is Males and below is Females. They're both the same so those aged 100 to 120 must either be catergory H or O.
 ```{r}
 
 min_age <- min(crime$vict_age, na.rm = TRUE)
@@ -213,3 +217,38 @@ Data Explorations:
 The source of this data is data.gov and it's crime data from 2020 to 2023. I think I was doing mental health or hate crime data before but I could not figure out how to import that data and it was taking too much time to figure out. Here is the link to that data: https://catalog.data.gov/dataset/crime-data-from-2020-to-present/resource/5eb6507e-fa82-4595-a604-023f8a326099l. 
 
 The crime data provided has data from 2020 to now in L.A. The crimes range from stolen vehicles, vandalism, rape, theft, arson and more along with the area they were committed in. I can analyze who has the most crimes committed against them. The most important columns for this analysis are victim age and victim sex. I think I would want to know who committed these crimes and what causes these demographics to be the most targeted. 
+
+
+FINAL INCLUSIONS: 
+
+```{r}
+crime_2020 <- subset(crime, date_occ == 2020)
+```
+For the plot. 
+```{r}
+crime_summary <- data.frame(
+  vict_sex = c("M", "F"),
+  crime_2020 = c(403891, 358585))
+```
+
+```{r}
+ggplot(crime_summary, aes(x = vict_sex, y = crime_2020)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Crimes by Gender (2020)",
+       x = "Gender",
+       y = "Number of Victims")
+```
+
+
+```{r}
+ggplot(crime_summary, aes(x = vict_sex, y = crime_2020)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  geom_text(aes(label = format(crime_2020, big.mark = ",")),
+            vjust = 0, size = 5) + 
+  labs(title = "Crimes by Gender (2020)",
+       x = "Gender",
+       y = "Number of Victims") 
+```
+Story Pitch: 
+Laying out the facts, the age of victims in 2020 in Los Angeles are 2 years old to 99 years old with males victims being higher than female victims. 358585 females have been victims and 403891 males were victims in that year. The angle of my reporting would be how crime impacted everyone from various ranges and genders. I would see if the pandemic had anything to do with it and I would see if the amount of men impacted by crime is significantly higher than women impacted by crimes. I would also contact LAPD for comment and see whcih neighborhoods were impacted the most. Potential problems is with the X and H gender identification. 
+
