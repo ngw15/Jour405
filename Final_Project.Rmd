@@ -16,7 +16,172 @@ crime <- read_csv("https://data.lacity.org/api/views/2nrs-mtv8/rows.csv?accessTy
 ```{r}
 crime <- crime %>%clean_names()
 ```
+Trials Errors and Lessons: 
+I ask ChatGPT a few things for these ones so here is the link to all of that: https://chatgpt.com/share/682aa394-8abc-800f-8bda-4e3c2813753c 
 
+Narrowing the data to a single number of crime in a certain category using totals: 
+
+```{r}
+crime %>%
+  group_by(2020) %>%
+  summarise(total_cases = n())
+```
+```{r}
+crime %>%
+  group_by(2020, vict_sex) %>%
+  summarise(total_cases = n())
+```
+For the table above, the internet was pretty divided on what X (intersex, gender not listed, gender not included, non-binary...) meant but ChatGPT said X means unknown or unreported gender. The internet or ChatGPT did not know what H meant. 
+
+
+Tried this to try and filter gender and type of crime but it didn't work. That's okay though, I'll just use the amount of crimes commited in 2020 total and look at that. I tried changing the year and crime and stuff but I don't know. 
+```{r}
+crime %>%
+  filter(date_occ == 2021, crm_cd_desc == "BURGLARY") %>%
+  group_by(vict_sex) %>%
+  summarise(total_cases = n())
+
+```
+ChatGPT said to add the lubridate... because I'm asking for a specific year and the dates are listed as full dates which is why I'm not seeing anything. It still didn't work. I don't know, oh well. 
+```{r}
+library(dplyr)
+library(lubridate)
+
+crime %>%
+  filter(date_occ == 2021, crm_cd_desc == "BURGLARY") %>%
+  group_by(vict_sex) %>%
+  summarise(total_cases = n())
+```
+
+Calculating Means and SD Values: 
+```{r}
+crime %>% summarize(mean=mean(vict_age), sd=sd(vict_age))
+```
+Asked ChatGPT how to narrow it down by year: 
+```{r}
+library(dplyr)
+library(lubridate)
+
+crime %>%
+  filter(year(date_occ) == 2021) %>%
+  summarize(mean_age = mean(vict_age, na.rm = TRUE),
+            sd_age = sd(vict_age, na.rm = TRUE))
+```
+```{r}
+str(crime$date_occ)
+head(crime$date_occ)
+```
+Chat said these are ambigous formats of dates that makes it unrecognizable for lubridate. That makes sense why the earlier code wasn't working. 
+```{r}
+crime <- crime %>%
+  mutate(date_occ = as.Date(date_occ, format = "%m/%d/%Y"))
+```
+This converts the dates. Now it should work...
+```{r}
+library(lubridate)
+
+crime %>%
+  filter(year(date_occ) == 2020) %>%
+  summarize(mean_age = mean(vict_age, na.rm = TRUE),
+            sd_age = sd(vict_age, na.rm = TRUE))
+```
+YAYY! Lets see if we can filter even further with gender. Chat said non-numeric values go in quotation marks.
+
+```{r}
+crime %>%
+  filter(vict_sex == "F")%>%
+ filter(vict_sex == "M")%>%
+filter(year(date_occ) == 2020) %>%
+  summarize(mean_age = mean(vict_age, na.rm = TRUE),
+            sd_age = sd(vict_age, na.rm = TRUE))
+```
+Ooh. No okay. Well. I'll take the "M" catergory out and see. So I guess the below is the mean and sd for females in 2020. 
+```{r}
+crime %>%
+  filter(vict_sex == "F")%>%
+filter(year(date_occ) == 2020) %>%
+  summarize(mean_age = mean(vict_age, na.rm = TRUE),
+            sd_age = sd(vict_age, na.rm = TRUE))
+```
+Here is males then: 
+```{r}
+crime %>%
+  filter(vict_sex == "M")%>%
+filter(year(date_occ) == 2020) %>%
+  summarize(mean_age = mean(vict_age, na.rm = TRUE),
+            sd_age = sd(vict_age, na.rm = TRUE))
+```
+Okay. 
+
+New Min/Max victim age with filter and within the new catergory: 
+crime |> 
+  filter(vict_age > 0) |> 
+  summarize(min_age = min(vict_age), max_age = max(vict_age)) 
+```{r}
+min_age <- min(crime$vict_age, na.rm = TRUE)
+max_age <- max(crime$vict_age, na.rm = TRUE)
+cat("Victim ages range from", min_age, "to", max_age)
+
+crime |> 
+  filter(vict_age > 0) |> 
+  summarize(min_age = min(vict_age), max_age = max(vict_age))
+```
+  That worked. Ages range from 2 to 120 years old. I'm going to try and filter it. 
+  
+```{r}
+min_age <- min(crime$vict_age, na.rm = TRUE)
+max_age <- max(crime$vict_age, na.rm = TRUE)
+cat("Victim ages range from", min_age, "to", max_age)
+
+crime |> 
+  filter(vict_age > 0) |> 
+  filter(year(date_occ)== 2020) %>%
+  summarize(min_age = min(vict_age), max_age = max(vict_age))
+
+```
+```{r}
+
+min_age <- min(crime$vict_age, na.rm = TRUE)
+max_age <- max(crime$vict_age, na.rm = TRUE)
+cat("Victim ages range from", min_age, "to", max_age)
+
+crime |> 
+  filter(vict_age > 0) |> 
+  filter(year(date_occ)== 2020) %>%
+  filter(vict_sex == "M")%>%
+  summarize(min_age = min(vict_age), max_age = max(vict_age))
+```
+```{r}
+
+min_age <- min(crime$vict_age, na.rm = TRUE)
+max_age <- max(crime$vict_age, na.rm = TRUE)
+cat("Victim ages range from", min_age, "to", max_age)
+
+crime |> 
+  filter(vict_age > 0) |> 
+  filter(year(date_occ)== 2020) %>%
+  filter(vict_sex == "F")%>%
+  summarize(min_age = min(vict_age), max_age = max(vict_age))
+```
+  
+```{r}
+
+crime %>%
+  filter(year(date_occ) == 2020) %>%
+  filter(vict_age)%>%
+  summarize(mean_age = mean(vict_age, na.rm = TRUE),
+            sd_age = sd(vict_age, na.rm = TRUE)
+```
+Chat said to change it to this because I'm filtering numbers now.
+```{r}
+crime %>%
+  filter(year(date_occ) == 2020) %>%
+  summarize(mean_age = mean(vict_age, na.rm = TRUE),
+            sd_age = sd(vict_age, na.rm = TRUE))
+```
+
+  Okay Cool. Updated Chat link just in case it didn't update the last one as I went: https://chatgpt.com/share/682aa394-8abc-800f-8bda-4e3c2813753c 
+  
 Tests I can run: 
 I can find the total amount of women and men who were victims. 
 Find the average age and gender of victims. 
